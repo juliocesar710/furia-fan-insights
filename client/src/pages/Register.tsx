@@ -40,6 +40,13 @@ const Title = styled.h2`
   margin-bottom: 2rem;
 `;
 
+const ErrorMessage = styled.div`
+  color: ${({ theme }) => theme.colors.accent};
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+`;
+
 const Register: React.FC = () => {
   const { theme } = useTheme();
   const navigate = useNavigate();
@@ -82,11 +89,6 @@ const Register: React.FC = () => {
   );
 };
 
-const ErrorMessage = styled.div`
-  color: ${({ theme }) => theme.colors.accent};
-  text-align: center;
-  margin-bottom: 1rem;
-  font-size: 0.875rem;
-`;
+
 
 export default Register; 

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form } from '../components/Form/Form';
 import styled from 'styled-components';
 import { useTheme } from '../contexts/ThemeContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { loginUser } from '../api/User/userLogin';
 
 interface LoginData {
   email: string;
@@ -53,13 +54,34 @@ const RegisterLink = styled.div`
   }
 `;
 
+const ErrorMessage = styled.div`
+  color: ${({ theme }) => theme.colors.accent};
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+`;
+
 const Login: React.FC = () => {
   const { theme } = useTheme();
 
-  const handleSubmit = (data: LoginData) => {
-    console.log(data);
-    // Aqui você implementará a lógica de login
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (data: LoginData) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const response = await loginUser(data);
+      localStorage.setItem('token', response.token);
+      navigate('/home');
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
 
   const loginFields = [
     { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'Digite seu email' },
@@ -70,10 +92,13 @@ const Login: React.FC = () => {
     <LoginContainer>
       <LoginCard>
         <Title>Entrar</Title>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+
         <Form
           fields={loginFields}
           onSubmit={handleSubmit}
-          submitText="Entrar"
+          submitText={isLoading ? "Entrando..." : "Entrar"}
+          disabled={isLoading}
         />
         <RegisterLink>
           Não tem uma conta? <Link to="/register">Registre-se</Link>
