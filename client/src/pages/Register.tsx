@@ -58,7 +58,7 @@ const Register: React.FC = () => {
       setIsLoading(true);
       setError(null);
       await registerUser(data);
-      navigate('/home');
+      navigate('/complete-profile');
     } catch (error: any) {
       setError(error.message);
     } finally {
