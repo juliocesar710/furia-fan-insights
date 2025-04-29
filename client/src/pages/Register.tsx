@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form } from '../components/Form/Form';
 import styled from 'styled-components';
 import { useTheme } from '../contexts/ThemeContext';
+import { registerUser } from '../api/User/userRegister';
+import { useNavigate } from 'react-router-dom';
 
 interface RegisterData {
   name: string;
@@ -40,33 +42,51 @@ const Title = styled.h2`
 
 const Register: React.FC = () => {
   const { theme } = useTheme();
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (data: RegisterData) => {
-    console.log(data);
-    // Aqui você implementará a lógica de registro
+  const handleSubmit = async (data: RegisterData) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      await registerUser(data);
+      navigate('/home');
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const registerFields = [
     { name: 'name', label: 'Nome', type: 'text', required: true, placeholder: 'Digite seu nome completo' },
     { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'Digite seu email' },
     { name: 'password', label: 'Senha', type: 'password', required: true, placeholder: 'Digite sua senha' },
-    { name: 'nickname', label: 'Apelido', type: 'text', placeholder: 'Digite seu apelido (opcional)' },
     { name: 'birthDate', label: 'Data de Nascimento', type: 'date', placeholder: 'Selecione sua data de nascimento (opcional)' },
-    { name: 'favoriteTeam', label: 'Jogo favorito', type: 'text', placeholder: 'Digite seu jogo favorito (opcional)' },
   ];
 
   return (
     <RegisterContainer>
       <RegisterCard>
         <Title>Criar uma conta</Title>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <Form
           fields={registerFields}
           onSubmit={handleSubmit}
-          submitText="Registrar"
+          submitText={isLoading ? "Registrando..." : "Registrar"}
+          disabled={isLoading}
         />
       </RegisterCard>
     </RegisterContainer>
   );
 };
+
+const ErrorMessage = styled.div`
+  color: ${({ theme }) => theme.colors.accent};
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+`;
 
 export default Register; 

@@ -15,6 +15,7 @@ interface FormProps {
   fields: FormField[];
   onSubmit: SubmitHandler<any>;
   submitText: string;
+  disabled?: boolean;
 }
 
 const FormContainer = styled.form`
@@ -61,18 +62,18 @@ const ErrorMessage = styled.span`
   font-size: 0.75rem;
 `;
 
-const SubmitButton = styled.button`
+const SubmitButton = styled.button<{ disabled?: boolean }>`
   padding: 0.75rem 1.5rem;
   border-radius: ${({ theme }) => theme.radius.button};
-  background-color: ${({ theme }) => theme.colors.accent};
+  background-color: ${({ theme, disabled }) => disabled ? theme.colors.border : theme.colors.accent};
   color: white;
   font-weight: ${({ theme }) => theme.font.weight.bold};
   border: none;
-  cursor: pointer;
+  cursor: ${({ disabled }) => disabled ? 'not-allowed' : 'pointer'};
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.accentHover};
+    background-color: ${({ theme, disabled }) => !disabled && theme.colors.accentHover};
   }
 
   &:focus {
@@ -81,7 +82,7 @@ const SubmitButton = styled.button`
   }
 `;
 
-export const Form: React.FC<FormProps> = ({ fields, onSubmit, submitText }) => {
+export const Form: React.FC<FormProps> = ({ fields, onSubmit, submitText, disabled }) => {
   const { theme } = useTheme();
   const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -98,13 +99,14 @@ export const Form: React.FC<FormProps> = ({ fields, onSubmit, submitText }) => {
             type={field.type}
             {...register(field.name, { required: field.required })}
             placeholder={field.placeholder}
+            disabled={disabled}
           />
           {errors[field.name] && (
             <ErrorMessage>Este campo é obrigatório</ErrorMessage>
           )}
         </FormFieldContainer>
       ))}
-      <SubmitButton type="submit">
+      <SubmitButton type="submit" disabled={disabled}>
         {submitText}
       </SubmitButton>
     </FormContainer>
