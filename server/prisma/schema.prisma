@@ -20,6 +20,7 @@ model User {
   name       String
   phone      String?  
   birthDate  DateTime? 
+  cpf        String?   @unique
   address    String?  
   city       String?  
   state      String?  
@@ -27,5 +28,18 @@ model User {
   zipCode    String?  
   avatarUrl  String?  
   bio        String?  
+  verified   Boolean   @default(false)
+  documents  String[]  @default([]) 
+
+  favoriteTeams   String[] @default([])
+  favoriteGames   String[] @default([])
+  attendedEvents  String[] @default([])
+  merchPurchases  Json?    
+
+  socialAccounts  Json?    
+  socialActivityScore Float?  
+  contentRelevanceScore Float?  
+  fanScore        Float?
+
   createdAt  DateTime @default(now())
 }
