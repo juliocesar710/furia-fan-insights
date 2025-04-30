@@ -32,45 +32,46 @@ declare module 'styled-components' {
 export type Theme = typeof lightTheme;
 
 export const lightTheme = {
-    name: "light",
-    colors: {
-      background: "#f9f9f9",
-      text: "#1f1f1f",
-      textSecondary: "#444",
-      accent: "#ff4655",
-      accentHover: "#e53947",
-      card: "#ffffff",
-      border: "#e0e0e0",
-      inputBackground: "#f0f0f0",
-      shadow: "rgba(0, 0, 0, 0.1)",
+  name: "light",
+  colors: {
+    background: "#FDFDFD",
+    text: "#0A0A0A",
+    textSecondary: "#444",
+    accent: "#1A1A1A",
+    accentHover: "#000000",
+    card: "#FFFFFF",
+    border: "#D0D0D0",
+    inputBackground: "#F5F5F5",
+    shadow: "0px 4px 12px rgba(0, 0, 0, 0.05)",
+  },
+  font: {
+    family: "'Roboto', sans-serif",
+    size: "16px",
+    weight: {
+      regular: 400,
+      bold: 700,
     },
-    font: {
-      family: "'Roboto', sans-serif",
-      size: "16px",
-      weight: {
-        regular: 400,
-        bold: 700,
-      },
-    },
-    radius: {
-      card: "12px",
-      button: "8px",
-    },
-  }
+  },
+  radius: {
+    card: "12px",
+    button: "8px",
+  },
+};
+
   
   
   export const darkTheme = {
     name: "dark",
     colors: {
-      background: "#0D0D0D",
-      text: "#FFFFFF",
-      textSecondary: "#B3B3B3",
-      accent: "#FF4655",
-      accentHover: "#FF2E44",
-      card: "#1a1a1a",
-      border: "#2c2c2c",
-      inputBackground: "#121212",
-      shadow: "rgba(255, 70, 85, 0.2)",
+      background: "#0A0A0A",
+      text: "#F0F0F0",
+      textSecondary: "#B0B0B0",
+      accent: "#FFFFFF",
+      accentHover: "#E0E0E0",
+      card: "#121212",
+      border: "#1F1F1F",
+      inputBackground: "#161616",
+      shadow: "0px 4px 12px rgba(255, 255, 255, 0.05)",
     },
     font: {
       family: "'Roboto', sans-serif",
@@ -84,5 +85,4 @@ export const lightTheme = {
       card: "12px",
       button: "8px",
     },
-  }
-  
+  };

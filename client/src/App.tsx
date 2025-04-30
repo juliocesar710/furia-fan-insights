@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import CompleteProfile from './pages/CompleteProfile';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/complete-profile" element={<CompleteProfile />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/profile" element={<ProfilePage/>}></Route>
         </Routes>
       </Router>
     </ThemeProvider>
